@@ -1,31 +1,49 @@
-var topics = ["halo", "gears of war", "the witcher", "pubg", "fortnite", "red dead redemption", "battlefield", "fifa", "madden"];
+var topics = ["halo combat evolved", "gears of war", "the witcher", "pubg", "fortnite", "red dead redemption", "battlefield", "fifa", "madden"];
 
-function buildQueryURL() {
-    var queryURL = "https://api.giphy.com/v1/gifs/search" //&limit=10
-    var queryParams = {
-        "api-key": "KvE6zJyzdwcwzmJ1gDKccOpV1Xscje0B"
-    };
+function displayGameInfo() {
+    var game = $(this).attr("game-name");
 
-    queryParams.q = $("#search-term")
-        .val()
-        .trim();
+    var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
+        game + "&api_key=KvE6zJyzdwcwzmJ1gDKccOpV1Xscje0B&limit=10";
 
-    console.log("---------------\nURL: " + queryURL + "\n---------------");
-    console.log(queryURL + $.param(queryParams));
-    return queryURL + $.param(queryParams);
+    $.ajax({
+            url: queryURL,
+            method: "GET"
+        })
+        .then(function (response) {
+            console.log(queryURL);
+
+            console.log(response);
+
+            var results = response.data;
+
+            for (var i = 0; i < results.length; i++) {
+                var gameDiv = $("<div>");
+                var p = $("<p>").text("Rating: " + results[i].rating);
+                var gameImage = $("<img>")
+                gameImage.attr("src", results[i].images.fixed_height.url);
+
+                gameDiv.append(p);
+                gameDiv.prepend(gameImage);
+            
+                $("#gifs").prepend(gameDiv);
+                function updateState(state, ele) {
+                    $(ele).attr("src", $(ele).attr("data-" + state));
+                    $(ele).attr("data-state", state);
+                  }
+                  $("img").on("click", function () {
+                    var state = $(this).attr("data-state");
+                    var dAnimate = $(this).attr("data-animate")
+                    if (state === "still") {
+                      updateState('animate', this);
+                    } else {
+                      updateState('still', this);
+                    }
+                  });
+            };
+        });
 };
-/** $.ajax({
-    url: queryURL,
-    method: "GET"
-}).then(function (response) {
-    var results = response.data;
 
-    for (var i = 0; i < results.length; i++) {
-        var gameDiv = $("<div>");
-        var p = $("<p>").text("Rating: " + results[i].rating);
-    };
-
-});*/
 
 function renderButtons() {
     $("#gif-buttons").empty();
@@ -33,7 +51,7 @@ function renderButtons() {
     for (var i = 0; i < topics.length; i++) {
         var a = $("<button>");
         a.addClass("game-btn");
-        a.attr("data-name", topics[i]);
+        a.attr("game-name", topics[i]);
         a.text(topics[i]);
         $("#gif-buttons").append(a);
     };
@@ -47,4 +65,6 @@ $("#add-game").on("click", function (event) {
     topics.push(game);
     renderButtons();
 });
+$(document).on("click", ".game-btn", displayGameInfo);
+
 renderButtons();
