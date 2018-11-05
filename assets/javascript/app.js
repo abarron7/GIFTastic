@@ -22,7 +22,7 @@ function displayGameInfo() {
                 var p = $("<p>").text("Rating: " + results[i].rating);
                 var gameImage = $("<img>")
                 gameImage.attr("src", results[i].images.fixed_height.url);
-
+                gameDiv.addClass("result-gif")
                 gameDiv.append(p);
                 gameDiv.prepend(gameImage);
             
