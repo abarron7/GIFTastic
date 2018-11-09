@@ -5,7 +5,7 @@
     float: right;
 }
 body {
-    background-color: lightgrey
+    background-color: lightgrey;
 }
 .game-btn, #add-game{
 	-moz-box-shadow: 0px 1px 0px 0px #1c1b18;
@@ -48,12 +48,12 @@ body {
 	top:1px;
 }
 p {
-    font-size: 20pt
+    font-size: 20pt;
 }
 img {
 	max-width: 300px;
 	float: left;
-	max-height: 130px
+	max-height: 200px;
 }
 .imgContainer {
     width: 980px;
@@ -66,9 +66,17 @@ img {
 }
 .form-group {
     font-size: 30px;
-    padding-bottom: 5px 
+    padding-bottom: 5px;
 }
 .form-control {
     height: 20px;
-    width: 150px
+    width: 150px;
+}
+.container {
+width: 960px;
+float: center;
+text-align: center;
+}
+p {
+	margin: 5px
 }

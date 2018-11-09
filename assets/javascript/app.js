@@ -30,7 +30,7 @@ function displayGameInfo() {
                 gameImage.attr("data-still", still);
                 gameImage.attr("data-animate", animated);
                 gameDiv.append(p);
-                gameDiv.append(gameImage);
+                gameDiv.prepend(gameImage);
                 $("#gifs").prepend(gameDiv);
 
             };
@@ -57,6 +57,7 @@ $("#add-game").on("click", function (event) {
     var game = $("#game-input").val().trim();
     topics.push(game);
     renderButtons();
+    $('#game-input').val("");
 });
 $(document).on("click", ".game-btn", displayGameInfo);
 
