@@ -51,17 +51,18 @@ p {
     font-size: 20pt
 }
 img {
-    max-width: 300px;
+	max-width: 300px;
+	float: left;
+	max-height: 130px
 }
 .imgContainer {
     width: 980px;
     margin: 0px auto;
     float: left;
 }
-.result-gif {
+#gif {
     float: left;
     padding: 5px;
-
 }
 .form-group {
     font-size: 30px;

@@ -17,29 +17,22 @@ function displayGameInfo() {
 
             var results = response.data;
 
+
             for (var i = 0; i < results.length; i++) {
-                var gameDiv = $("<div>");
+                var animated = results[i].images.fixed_height.url
+                var still = results[i].images.fixed_height_still.url
+                var gameDiv = $("<div id='gif'>");
                 var p = $("<p>").text("Rating: " + results[i].rating);
                 var gameImage = $("<img>")
-                gameImage.attr("src", results[i].images.fixed_height.url);
-                gameDiv.addClass("result-gif")
+                gameImage.addClass("resultGif")
+                gameImage.attr("src", still);
+                gameImage.attr("data-state", "still");
+                gameImage.attr("data-still", still);
+                gameImage.attr("data-animate", animated);
                 gameDiv.append(p);
-                gameDiv.prepend(gameImage);
-            
+                gameDiv.append(gameImage);
                 $("#gifs").prepend(gameDiv);
-                function updateState(state, ele) {
-                    $(ele).attr("src", $(ele).attr("data-" + state));
-                    $(ele).attr("data-state", state);
-                  }
-                  $("img").on("click", function () {
-                    var state = $(this).attr("data-state");
-                    var dAnimate = $(this).attr("data-animate")
-                    if (state === "still") {
-                      updateState('animate', this);
-                    } else {
-                      updateState('still', this);
-                    }
-                  });
+
             };
         });
 };
@@ -67,4 +60,15 @@ $("#add-game").on("click", function (event) {
 });
 $(document).on("click", ".game-btn", displayGameInfo);
 
+function playGifs() {
+    var state = $(this).attr("data-state");
+   if (state === "still") {
+     $(this).attr("src", $(this).attr("data-animate"));
+     $(this).attr("data-state", "animate");
+   } else {
+     $(this).attr("src", $(this).attr("data-still"));
+     $(this).attr("data-state", "still");
+}
+};
 renderButtons();
+$(document).on("click",".resultGif", playGifs);
